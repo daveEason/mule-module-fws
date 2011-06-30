@@ -1,0 +1,1424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ***************************************************************************
+ *
+ * Copyright (c) 2007 Amazon.com, Inc. All rights reserved.
+ * AMAZON.COM CONFIDENTIAL
+ *
+ * DISCLAIMER:
+ * All strings returned by these operations have not been scrubbed for potential
+ * SQL or HTML injection vulnerabilities.
+ *
+ *************************************************************************** -->
+
+<wsdl:definitions
+        targetNamespace="http://fba-inbound.amazonaws.com/doc/2007-05-10/"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:wsa="http://www.w3.org/2005/08/addressing"
+        xmlns:tns="http://fba-inbound.amazonaws.com/doc/2007-05-10/">
+
+        <wsdl:types>
+            <xs:schema
+                targetNamespace="http://fba-inbound.amazonaws.com/doc/2007-05-10/"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:tns="http://fba-inbound.amazonaws.com/doc/2007-05-10/"
+                elementFormDefault="qualified">
+
+                <!-- **************************** AmazonFWSInbound Interface *************************** -->
+                <!-- Release Notes: https://fba-inbound.amazonaws.com/doc/2007-05-10/ReleaseNotes.html -->
+
+                <!-- GetServiceStatus Action -->
+                <xs:element name="GetServiceStatus">
+                    <xs:complexType>
+                        <xs:sequence/>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetServiceStatus Action Response -->
+                <xs:element name="GetServiceStatusResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:GetServiceStatusResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentIdentifier Action -->
+                <xs:element name="GetFulfillmentIdentifier">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="MerchantItem" type="tns:MerchantItem" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentIdentifier Action Response -->
+                <xs:element name="GetFulfillmentIdentifierResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:GetFulfillmentIdentifierResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentIdentifierForMSKU Action -->
+                <xs:element name="GetFulfillmentIdentifierForMSKU">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="MerchantSKU" type="xs:string" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentIdentifierForMSKU Action Response -->
+                <xs:element name="GetFulfillmentIdentifierForMSKUResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:GetFulfillmentIdentifierForMSKUResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListAllFulfillmentItems Action -->
+                <xs:element name="ListAllFulfillmentItems">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="IncludeInactive" type="xs:boolean" minOccurs="0"/>
+                            <xs:element name="MaxCount" type="xs:int" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListAllFulfillmentItems Action Response -->
+                <xs:element name="ListAllFulfillmentItemsResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ListAllFulfillmentItemsResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListAllFulfillmentItemsByNextToken Action -->
+                <xs:element name="ListAllFulfillmentItemsByNextToken">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="NextToken" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListAllFulfillmentItemsByNextToken Action Response -->
+                <xs:element name="ListAllFulfillmentItemsByNextTokenResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ListAllFulfillmentItemsByNextTokenResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentItemByMSKU Action -->
+                <xs:element name="GetFulfillmentItemByMSKU">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="MerchantSKU" type="xs:string" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentItemByMSKU Action Response -->
+                <xs:element name="GetFulfillmentItemByMSKUResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:GetFulfillmentItemByMSKUResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentItemByFNSKU Action -->
+                <xs:element name="GetFulfillmentItemByFNSKU">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="FulfillmentNetworkSKU" type="xs:string" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentItemByFNSKU Action Response -->
+                <xs:element name="GetFulfillmentItemByFNSKUResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:GetFulfillmentItemByFNSKUResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetInboundShipmentPreview Action -->
+                <xs:element name="GetInboundShipmentPreview">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipFromAddress" type="tns:Address"/>
+                            <xs:element name="MerchantSKUQuantityItem" type="tns:MerchantSKUQuantityItem" maxOccurs="unbounded"/>
+                            <xs:element name="LabelPrepPreference" type="tns:LabelPrepPreference" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetInboundShipmentPreview Action Response -->
+                <xs:element name="GetInboundShipmentPreviewResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:GetInboundShipmentPreviewResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- PutInboundShipment Action -->
+                <xs:element name="PutInboundShipment">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipmentId" type="xs:string"/>
+                            <xs:element name="ShipmentName" type="xs:string"/>
+                            <xs:element name="DestinationFulfillmentCenter" type="xs:string"/>
+                            <xs:element name="ShipFromAddress" type="tns:Address"/>
+                            <xs:element name="LabelPrepPreference" type="tns:LabelPrepPreference" minOccurs="0"/>
+                            <xs:element name="MerchantSKUQuantityItem" type="tns:MerchantSKUQuantityItem" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- PutInboundShipment Action Response -->
+                <xs:element name="PutInboundShipmentResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- PutInboundShipmentItems Action -->
+                <xs:element name="PutInboundShipmentItems">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipmentId" type="xs:string"/>
+                            <xs:element name="MerchantSKUQuantityItem" type="tns:MerchantSKUQuantityItem" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- PutInboundShipmentItems Action Response -->
+                <xs:element name="PutInboundShipmentItemsResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- DeleteInboundShipmentItems Action -->
+                <xs:element name="DeleteInboundShipmentItems">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipmentId" type="xs:string"/>
+                            <xs:element name="MerchantSKU" type="xs:string" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- DeleteInboundShipmentItems Action Response -->
+                <xs:element name="DeleteInboundShipmentItemsResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipments Action -->
+                <xs:element name="ListInboundShipments">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipmentStatus" type="tns:ShipmentStatus" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element name="CreatedBefore" type="xs:dateTime" minOccurs="0"/>
+                            <xs:element name="CreatedAfter" type="xs:dateTime" minOccurs="0"/>
+                            <xs:element name="MaxCount" type="xs:int" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipments Action Response -->
+                <xs:element name="ListInboundShipmentsResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ListInboundShipmentsResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipmentsByNextToken Action -->
+                <xs:element name="ListInboundShipmentsByNextToken">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="NextToken" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipmentsByNextToken Action Response -->
+                <xs:element name="ListInboundShipmentsByNextTokenResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ListInboundShipmentsByNextTokenResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetInboundShipmentData Action -->
+                <xs:element name="GetInboundShipmentData">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipmentId" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetInboundShipmentData Action Response -->
+                <xs:element name="GetInboundShipmentDataResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:GetInboundShipmentDataResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- PutInboundShipmentData Action -->
+                <xs:element name="PutInboundShipmentData">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipmentId" type="xs:string"/>
+                            <xs:element name="ShipmentName" type="xs:string"/>
+                            <xs:element name="DestinationFulfillmentCenter" type="xs:string"/>
+                            <xs:element name="ShipFromAddress" type="tns:Address"/>
+                            <xs:element name="LabelPrepPreference" type="tns:LabelPrepPreference" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- PutInboundShipmentData Action Response -->
+                <xs:element name="PutInboundShipmentDataResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipmentItems Action -->
+                <xs:element name="ListInboundShipmentItems">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipmentId" type="xs:string"/>
+                            <xs:element name="MaxCount" type="xs:int" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipmentItems Action Response -->
+                <xs:element name="ListInboundShipmentItemsResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ListInboundShipmentItemsResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipmentItemsByNextToken Action -->
+                <xs:element name="ListInboundShipmentItemsByNextToken">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="NextToken" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipmentItemsByNextToken Action Response -->
+                <xs:element name="ListInboundShipmentItemsByNextTokenResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ListInboundShipmentItemsByNextTokenResult"/>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- SetInboundShipmentStatus Action -->
+                <xs:element name="SetInboundShipmentStatus">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipmentId" type="xs:string"/>
+                            <xs:element name="ShipmentStatus" type="tns:ShipmentStatus"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- SetInboundShipmentStatus Action Response -->
+                <xs:element name="SetInboundShipmentStatusResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:ResponseMetadata"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ******************************* AmazonFWSInbound Types ************************* -->
+
+                <!-- GetServiceStatus Result Data -->
+                <xs:element name="GetServiceStatusResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Status" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentIdentifier Result Data -->
+                <xs:element name="GetFulfillmentIdentifierResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="FulfillmentItem" type="tns:FulfillmentItem" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentIdentifierForMSKU Result Data -->
+                <xs:element name="GetFulfillmentIdentifierForMSKUResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="FulfillmentItem" type="tns:FulfillmentItem" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListAllFulfillmentItems Result Data -->
+                <xs:element name="ListAllFulfillmentItemsResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="NextToken" type="xs:string"/>
+                            <xs:element name="HasNext" type="xs:boolean"/>
+                            <xs:element name="FulfillmentItem" type="tns:FulfillmentItem" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListAllFulfillmentItemsByNextToken Result Data -->
+                <xs:element name="ListAllFulfillmentItemsByNextTokenResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="NextToken" type="xs:string"/>
+                            <xs:element name="HasNext" type="xs:boolean"/>
+                            <xs:element name="FulfillmentItem" type="tns:FulfillmentItem" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentItemByMSKU Result Data -->
+                <xs:element name="GetFulfillmentItemByMSKUResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="FulfillmentItem" type="tns:FulfillmentItem" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetFulfillmentItemByFNSKU Result Data -->
+                <xs:element name="GetFulfillmentItemByFNSKUResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="FulfillmentItem" type="tns:FulfillmentItem" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetInboundShipmentPreview Result Data -->
+                <xs:element name="GetInboundShipmentPreviewResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipmentPreview" type="tns:ShipmentPreview" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipments Result Data -->
+                <xs:element name="ListInboundShipmentsResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="NextToken" type="xs:string"/>
+                            <xs:element name="HasNext" type="xs:boolean"/>
+                            <xs:element name="ShipmentData" type="tns:InboundShipmentData" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipmentsByNextToken Result Data -->
+                <xs:element name="ListInboundShipmentsByNextTokenResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="NextToken" type="xs:string"/>
+                            <xs:element name="HasNext" type="xs:boolean"/>
+                            <xs:element name="ShipmentData" type="tns:InboundShipmentData" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- GetInboundShipmentData Result Data -->
+                <xs:element name="GetInboundShipmentDataResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ShipmentData" type="tns:InboundShipmentData"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipmentItems Result Data -->
+                <xs:element name="ListInboundShipmentItemsResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="NextToken" type="xs:string"/>
+                            <xs:element name="HasNext" type="xs:boolean"/>
+                            <xs:element name="ShipmentItem" type="tns:InboundShipmentItem" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- ListInboundShipmentItemsByNextToken Result Data -->
+                <xs:element name="ListInboundShipmentItemsByNextTokenResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="NextToken" type="xs:string"/>
+                            <xs:element name="HasNext" type="xs:boolean"/>
+                            <xs:element name="ShipmentItem" type="tns:InboundShipmentItem" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- General FulfillmentItem Type -->
+                <xs:complexType name="FulfillmentItem">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Properties and identifiers for an item that could be
+                            fulfilled by Amazon.  This does NOT imply that the item has a
+                            offer for which it can be fulfilled, only that it can be
+                            tracked by the Amazon Fulfillment Network.  An inactive item may
+                            have quantity in the fulfillment center, but will never be fulfilled.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="ASIN" type="xs:string"/>
+                        <xs:element name="Condition" type="tns:ItemCondition"/>
+                        <xs:element name="MerchantSKU" type="xs:string"/>
+                        <xs:element name="FulfillmentNetworkSKU" type="xs:string"/>
+                        <xs:element name="IsActive" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+
+                <!-- General MerchantItem Type -->
+                <xs:complexType name="MerchantItem">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Properties and identifiers for a merchant item. Very similar
+                            to a FulfillmentItem, but no FulfillmentNetworkSKU nor an
+                            IsActive flag is needed.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="ASIN" type="xs:string"/>
+                        <xs:element name="Condition" type="tns:ItemCondition"/>
+                        <xs:element name="MerchantSKU" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+
+                <!-- General ItemCondition Type -->
+                <xs:simpleType name="ItemCondition">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The item condition is the concatenation of condition type and
+                            subtype.  The exceptions are NewNew becomes NewItem and
+                            RefurbishedRefurbished becomes Refurbished.
+
+                            Unknown is not a valid condition to use when registering items
+                            for the Amazon Fulfillment Network.  It is used to indicate that
+                            the condition wasn't read correctly or was unavailable.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string" >
+                        <xs:enumeration value="NewItem" />
+                        <xs:enumeration value="NewWithWarranty" />
+                        <xs:enumeration value="NewOEM" />
+                        <xs:enumeration value="NewOpenBox" />
+                        <xs:enumeration value="UsedLikeNew" />
+                        <xs:enumeration value="UsedVeryGood" />
+                        <xs:enumeration value="UsedGood" />
+                        <xs:enumeration value="UsedAcceptable" />
+                        <xs:enumeration value="UsedPoor" />
+                        <xs:enumeration value="UsedRefurbished" />
+                        <xs:enumeration value="CollectibleLikeNew" />
+                        <xs:enumeration value="CollectibleVeryGood" />
+                        <xs:enumeration value="CollectibleGood" />
+                        <xs:enumeration value="CollectibleAcceptable" />
+                        <xs:enumeration value="CollectiblePoor" />
+                        <xs:enumeration value="RefurbishedWithWarranty" />
+                        <xs:enumeration value="Refurbished" />
+                        <xs:enumeration value="Club" />
+                        <xs:enumeration value="Unknown" />
+                    </xs:restriction>
+                </xs:simpleType>
+
+                <!-- General ShipmentStatus Type -->
+                <xs:simpleType name="ShipmentStatus">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Status of a shipment.  Describes a shipment which is:
+                            Working: being entered or updated by the merchant, which
+                              has not yet left the merchant;
+                            Shipped: tracking number entered by the merchant;
+                            InTransit: pickup by carrier;
+                            Delivered: delived by carrier;
+                            CheckedIn: checked in / scanned in Amazon fulfillment center;
+                            Receiving: received at least one item in the shipment by the
+                              Amazon fulfillment center, but not all items have been marked as received;
+                            Closed: all items have been completely received;
+                            Cancelled: merchant cancelled shipment (before or after shipping).
+                            Error: A shipment which was not processed by Amazon correctly.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Working"/>
+                        <xs:enumeration value="Shipped"/>
+                        <xs:enumeration value="InTransit"/>
+                        <xs:enumeration value="Delivered"/>
+                        <xs:enumeration value="CheckedIn"/>
+                        <xs:enumeration value="Receiving"/>
+                        <xs:enumeration value="Closed"/>
+                        <xs:enumeration value="Cancelled"/>
+                        <xs:enumeration value="Error"/>
+                    </xs:restriction>
+                </xs:simpleType>
+
+                <!-- General LabelPrepPreference Type -->
+                <xs:simpleType name="LabelPrepPreference">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The label preparation preference for the shipment.
+                            AMAZON_LABEL_ONLY: Require Amazon to label the items in the shipment
+                                               when labels are required.
+                                               No alternative if Amazon labeling is not possible.
+                            AMAZON_LABEL_PREFERRED: Prefer Amazon to label the items in the shipment
+                                               when labels are required. Merchant labeling is
+                                               required if Amazon labeling is not possible and
+                                               labels are required.
+                            MERCHANT_LABEL:    Require merchant to label the items in the shipment
+                                               when labels are required.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="AMAZON_LABEL_ONLY"/>
+                        <xs:enumeration value="AMAZON_LABEL_PREFERRED"/>
+                        <xs:enumeration value="MERCHANT_LABEL"/>
+                    </xs:restriction>
+                </xs:simpleType>
+
+                <!-- General LabelPrepType Type -->
+                <xs:simpleType name="LabelPrepType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Type of label preparation needed for the shipment.
+                            NO_LABEL:       No label preparation is needed.
+                            AMAZON_LABEL:   Label preparation from Amazon is needed.
+                            MERCHANT_LABEL: Label preparation from merchant is needed.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="NO_LABEL"/>
+                        <xs:enumeration value="AMAZON_LABEL"/>
+                        <xs:enumeration value="MERCHANT_LABEL"/>
+                    </xs:restriction>
+                </xs:simpleType>
+
+                <!--- General InboundShipmentData Type -->
+                <xs:complexType name="InboundShipmentData">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Information about a shipment.  Does not list the
+                            items in the shipment, however.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="ShipmentId" type="xs:string"/>
+                        <xs:element name="ShipmentName" type="xs:string"/>
+                        <xs:element name="ShipmentStatus" type="tns:ShipmentStatus"/>
+                        <xs:element name="DestinationFulfillmentCenter" type="xs:string"/>
+                        <xs:element name="ShipToAddress" type="tns:Address"/>
+                        <xs:element name="ShipFromAddress" type="tns:Address"/>
+                        <xs:element name="CreateDate" type="xs:dateTime"/>
+                        <xs:element name="LabelPrepType" type="tns:LabelPrepType" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+
+                <!-- General InboundShipmentItem Type -->
+                <xs:complexType name="InboundShipmentItem">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Information about an item in a shipment.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="QuantityShipped" type="xs:int"/>
+                        <xs:element name="QuantityReceived" type="xs:int"/>
+                        <xs:element name="FulfillmentNetworkSKU" type="xs:string"/>
+                        <xs:element name="MerchantSKU" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+
+                <!-- General MerchantSKUQuantityItem -->
+                <xs:complexType name="MerchantSKUQuantityItem">
+                    <xs:annotation>
+                        <xs:documentation>
+                            MerchantSKU with a quantity
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="MerchantSKU" type="xs:string"/>
+                        <xs:element name="Quantity" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+
+                <!-- General Address Type -->
+                <xs:complexType name="Address">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Postal address.  ISOCountryCode must be the ISO
+                            3166 country alpha-2 code (example 'US', 'UK', 'CA').
+                            PostalCode is only required in the US and must be
+                            at least 5 digits.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="Name" type="xs:string"/>
+                        <xs:element name="AddressLine1" type="xs:string"/>
+                        <xs:element name="AddressLine2" type="xs:string" minOccurs="0"/>
+                        <xs:element name="City" type="xs:string"/>
+                        <xs:element name="StateOrProvinceCode" type="xs:string"/>
+                        <xs:element name="CountryCode" type="xs:string"/>
+                        <xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+
+                <!-- General ShipmentPreview Type -->
+                <xs:complexType name="ShipmentPreview">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A collection of items to be sent to a specific
+                            Amazon Fulfillment Center.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="ShipmentId" type="xs:string"/>
+                        <xs:element name="DestinationFulfillmentCenter" type="xs:string"/>
+                        <xs:element name="ShipToAddress" type="tns:Address"/>
+                        <xs:element name="LabelPrepType" type="tns:LabelPrepType" minOccurs="0"/>
+                        <xs:element name="MerchantSKUQuantityItem" type="tns:MerchantSKUQuantityItem" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+
+                <!-- ******************************** AWS Types *********************************** -->
+
+                <xs:element name="ResponseMetadata">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="RequestId" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- // REST Error Response // -->
+                <xs:element name="ErrorResponse">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="tns:Error" maxOccurs="unbounded"/>
+                            <xs:element name="RequestId" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Error">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Type">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="Receiver"/>
+                                        <xs:enumeration value="Sender"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="Code" type="xs:string"/>
+                            <xs:element name="Message" type="xs:string"/>
+                            <xs:element name="Detail">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:schema>
+
+        </wsdl:types>
+
+        <!-- ******************************** Messages ********************************* -->
+
+        <wsdl:message name="GetServiceStatusRequestMsg">
+            <wsdl:part name="body" element="tns:GetServiceStatus"/>
+        </wsdl:message>
+        <wsdl:message name="GetServiceStatusResponseMsg">
+            <wsdl:part name="body" element="tns:GetServiceStatusResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="GetFulfillmentIdentifierRequestMsg">
+            <wsdl:part name="body" element="tns:GetFulfillmentIdentifier"/>
+        </wsdl:message>
+        <wsdl:message name="GetFulfillmentIdentifierResponseMsg">
+            <wsdl:part name="body" element="tns:GetFulfillmentIdentifierResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="GetFulfillmentIdentifierForMSKURequestMsg">
+            <wsdl:part name="body" element="tns:GetFulfillmentIdentifierForMSKU"/>
+        </wsdl:message>
+        <wsdl:message name="GetFulfillmentIdentifierForMSKUResponseMsg">
+            <wsdl:part name="body" element="tns:GetFulfillmentIdentifierForMSKUResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="ListAllFulfillmentItemsRequestMsg">
+            <wsdl:part name="body" element="tns:ListAllFulfillmentItems"/>
+        </wsdl:message>
+        <wsdl:message name="ListAllFulfillmentItemsResponseMsg">
+            <wsdl:part name="body" element="tns:ListAllFulfillmentItemsResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="ListAllFulfillmentItemsByNextTokenRequestMsg">
+            <wsdl:part name="body" element="tns:ListAllFulfillmentItemsByNextToken"/>
+        </wsdl:message>
+        <wsdl:message name="ListAllFulfillmentItemsByNextTokenResponseMsg">
+            <wsdl:part name="body" element="tns:ListAllFulfillmentItemsByNextTokenResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="GetFulfillmentItemByMSKURequestMsg">
+            <wsdl:part name="body" element="tns:GetFulfillmentItemByMSKU"/>
+        </wsdl:message>
+        <wsdl:message name="GetFulfillmentItemByMSKUResponseMsg">
+            <wsdl:part name="body" element="tns:GetFulfillmentItemByMSKUResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="GetFulfillmentItemByFNSKURequestMsg">
+            <wsdl:part name="body" element="tns:GetFulfillmentItemByFNSKU"/>
+        </wsdl:message>
+        <wsdl:message name="GetFulfillmentItemByFNSKUResponseMsg">
+            <wsdl:part name="body" element="tns:GetFulfillmentItemByFNSKUResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="GetInboundShipmentPreviewRequestMsg">
+            <wsdl:part name="body" element="tns:GetInboundShipmentPreview"/>
+        </wsdl:message>
+        <wsdl:message name="GetInboundShipmentPreviewResponseMsg">
+            <wsdl:part name="body" element="tns:GetInboundShipmentPreviewResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="PutInboundShipmentRequestMsg">
+            <wsdl:part name="body" element="tns:PutInboundShipment"/>
+        </wsdl:message>
+        <wsdl:message name="PutInboundShipmentResponseMsg">
+            <wsdl:part name="body" element="tns:PutInboundShipmentResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="PutInboundShipmentItemsRequestMsg">
+            <wsdl:part name="body" element="tns:PutInboundShipmentItems"/>
+        </wsdl:message>
+        <wsdl:message name="PutInboundShipmentItemsResponseMsg">
+            <wsdl:part name="body" element="tns:PutInboundShipmentItemsResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="DeleteInboundShipmentItemsRequestMsg">
+            <wsdl:part name="body" element="tns:DeleteInboundShipmentItems"/>
+        </wsdl:message>
+        <wsdl:message name="DeleteInboundShipmentItemsResponseMsg">
+            <wsdl:part name="body" element="tns:DeleteInboundShipmentItemsResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="ListInboundShipmentsRequestMsg">
+            <wsdl:part name="body" element="tns:ListInboundShipments"/>
+        </wsdl:message>
+        <wsdl:message name="ListInboundShipmentsResponseMsg">
+            <wsdl:part name="body" element="tns:ListInboundShipmentsResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="ListInboundShipmentsByNextTokenRequestMsg">
+            <wsdl:part name="body" element="tns:ListInboundShipmentsByNextToken"/>
+        </wsdl:message>
+        <wsdl:message name="ListInboundShipmentsByNextTokenResponseMsg">
+            <wsdl:part name="body" element="tns:ListInboundShipmentsByNextTokenResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="GetInboundShipmentDataRequestMsg">
+            <wsdl:part name="body" element="tns:GetInboundShipmentData"/>
+        </wsdl:message>
+        <wsdl:message name="GetInboundShipmentDataResponseMsg">
+            <wsdl:part name="body" element="tns:GetInboundShipmentDataResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="PutInboundShipmentDataRequestMsg">
+            <wsdl:part name="body" element="tns:PutInboundShipmentData"/>
+        </wsdl:message>
+        <wsdl:message name="PutInboundShipmentDataResponseMsg">
+            <wsdl:part name="body" element="tns:PutInboundShipmentDataResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="ListInboundShipmentItemsRequestMsg">
+            <wsdl:part name="body" element="tns:ListInboundShipmentItems"/>
+        </wsdl:message>
+        <wsdl:message name="ListInboundShipmentItemsResponseMsg">
+            <wsdl:part name="body" element="tns:ListInboundShipmentItemsResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="ListInboundShipmentItemsByNextTokenRequestMsg">
+            <wsdl:part name="body" element="tns:ListInboundShipmentItemsByNextToken"/>
+        </wsdl:message>
+        <wsdl:message name="ListInboundShipmentItemsByNextTokenResponseMsg">
+            <wsdl:part name="body" element="tns:ListInboundShipmentItemsByNextTokenResponse"/>
+        </wsdl:message>
+
+        <wsdl:message name="SetInboundShipmentStatusRequestMsg">
+            <wsdl:part name="body" element="tns:SetInboundShipmentStatus"/>
+        </wsdl:message>
+        <wsdl:message name="SetInboundShipmentStatusResponseMsg">
+            <wsdl:part name="body" element="tns:SetInboundShipmentStatusResponse"/>
+        </wsdl:message>
+
+        <!-- ********************************* Ports *********************************** -->
+
+        <wsdl:portType name="AmazonFWSInboundPortType">
+
+            <wsdl:operation name="GetServiceStatus">
+                <wsdl:documentation>
+                    Gets a brief status message from the service.
+                </wsdl:documentation>
+                <wsdl:input message="tns:GetServiceStatusRequestMsg" wsa:Action="urn:GetServiceStatus"/>
+                <wsdl:output message="tns:GetServiceStatusResponseMsg" wsa:Action="urn:GetServiceStatus:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetFulfillmentIdentifier">
+                <wsdl:documentation>
+                    Gets the Fulfillment Network SKU (FNSKU) for each supplied
+                    Merchant Item, creating it if needed. This operation is
+                    idempotent in that it can be called multiple times without
+                    any adverse effects. This operation is necessary to register
+                    items for Amazon fulfillment in order to send them to Amazon,
+                    but does NOT do the work of marking any offer for this item
+                    as Amazon-fulfilled. Providing more than 250 Merchant Items
+                    will result in an error.
+
+                    NOTE: Use this operation over GetFulfillmentIdentifierForMSKU
+                    if an offer does NOT already exist for the MerchantSKU.
+                </wsdl:documentation>
+                <wsdl:input
+                    message="tns:GetFulfillmentIdentifierRequestMsg"
+                    wsa:Action="urn:GetFulfillmentIdentifier"/>
+                <wsdl:output
+                    message="tns:GetFulfillmentIdentifierResponseMsg"
+                    wsa:Action="urn:GetFulfillmentIdentifier:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetFulfillmentIdentifierForMSKU">
+                <wsdl:documentation>
+                    Gets the Fulfillment Network SKU (FNSKU) for each supplied
+                    Merchant Item, creating it if needed. This operation is
+                    idempotent in that it can be called multiple times without
+                    any adverse effects. This operation is necessary to register
+                    items for Amazon fulfillment in order to send them to Amazon,
+                    but does NOT do the work of marking any offer for this item
+                    as Amazon-fulfilled. Providing more than 250 Merchant Items
+                    will result in an error.
+
+                    NOTE: Use this operation over GetFulfillmentIdentifier if
+                    an offer already exists for the SKU.
+                </wsdl:documentation>
+                <wsdl:input
+                    message="tns:GetFulfillmentIdentifierForMSKURequestMsg"
+                    wsa:Action="urn:GetFulfillmentIdentifierForMSKU"/>
+                <wsdl:output
+                    message="tns:GetFulfillmentIdentifierForMSKUResponseMsg"
+                    wsa:Action="urn:GetFulfillmentIdentifierForMSKU:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListAllFulfillmentItems">
+                <wsdl:documentation>
+                    Gets the first set of fulfillment items registered to a
+                    merchant and returns a NextToken which can be used to
+                    iterate through the remaining fulfillment items (via the
+                    'ListAllFulfillmentItemsByNextToken operation).  The
+                    service will return between 1 and 'MaxCount' number of
+                    items.  Please check the value of 'HasNext' to determine
+                    whether there were some items which were not returned.  If
+                    'IncludeInactive' is set to true, it will return both
+                    active and inactive mappings (this parameter defaults to
+                    false).  Inactive mappings can be used to track inventory in
+                    Amazon's fulfillment centers although they can't be fulfilled.
+                </wsdl:documentation>
+                <wsdl:input message="tns:ListAllFulfillmentItemsRequestMsg" wsa:Action="urn:ListAllFulfillmentItems"/>
+                <wsdl:output message="tns:ListAllFulfillmentItemsResponseMsg" wsa:Action="urn:ListAllFulfillmentItems:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListAllFulfillmentItemsByNextToken">
+                <wsdl:documentation>
+                    Gets the next set of fulfillment items registered to a
+                    merchant and returns a NextToken which can be used to
+                    iterate through the remaining fulfillment items.  The
+                    service will return between 1 and 'MaxCount' number of
+                    items.  Please check the value of 'HasNext' to determine
+                    whether there were some items which were not returned.
+                </wsdl:documentation>
+                <wsdl:input
+                    message="tns:ListAllFulfillmentItemsByNextTokenRequestMsg" wsa:Action="urn:ListAllFulfillmentItemsByNextToken"/>
+                <wsdl:output
+                    message="tns:ListAllFulfillmentItemsByNextTokenResponseMsg" wsa:Action="urn:ListAllFulfillmentItemsByNextToken:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetFulfillmentItemByMSKU">
+                <wsdl:documentation>
+                    Gets fulfillment item data for the provided Merchant SKUs.  If
+                    any of the provided MSKUs are invalid (e.g. does not have an
+                    assigned Fulfillment Network SKU) they will be ignored and only
+                    the valid SKUs will be returned.  NOTE: Providing more than
+                    2,000 MSKUs will result in an error.
+                </wsdl:documentation>
+                <wsdl:input
+                    message="tns:GetFulfillmentItemByMSKURequestMsg" wsa:Action="urn:GetFulfillmentItemByMSKU"/>
+                <wsdl:output
+                    message="tns:GetFulfillmentItemByMSKUResponseMsg" wsa:Action="urn:GetFulfillmentItemByMSKU:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetFulfillmentItemByFNSKU">
+                <wsdl:documentation>
+                    Gets fulfillment item data for the provided Fulfillment
+                    Network SKUs.  If any of the provided FNSKUs are invalid
+                    they will be ignored and only the valid SKUs will be returned.
+                    NOTE: Providing more than 2,000 FNSKUs will result in an error.
+                </wsdl:documentation>
+                <wsdl:input
+                    message="tns:GetFulfillmentItemByFNSKURequestMsg" wsa:Action="urn:GetFulfillmentItemByFNSKU"/>
+                <wsdl:output
+                    message="tns:GetFulfillmentItemByFNSKUResponseMsg" wsa:Action="urn:GetFulfillmentItemByFNSKU:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetInboundShipmentPreview">
+                <wsdl:documentation>
+                    Returns the information needed to create a set of shipments
+                    for the given collection of items and source address.  When
+                    all the items are not all in the same category (e.g. some
+                    sortable, some non-sortable) it may be necessary to create
+                    multiple shipments (one for each of the shipment groups
+                    returned).
+                </wsdl:documentation>
+                <wsdl:input message="tns:GetInboundShipmentPreviewRequestMsg" wsa:Action="urn:GetInboundShipmentPreview"/>
+                <wsdl:output message="tns:GetInboundShipmentPreviewResponseMsg" wsa:Action="urn:GetInboundShipmentPreview:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="PutInboundShipment">
+                <wsdl:documentation>
+                    Creates or replaces information about a shipment. If the
+                    shipment already exists, the information about the shipment
+                    (and its associated items) will be replaced (for the provided
+                    ShipmentId).  If the shipment does not exist, one will be
+                    created.
+
+                    Note, the merchant should call SetInboundShipmentStatus with a
+                    status of 'Shipped' when the shipment is picked up, or set the status
+                    to 'Cancelled' if the shipment is abandoned. The intial status
+                    of a shipment will be set to 'Working'. Once a shipment's status
+                    has been set to 'Shipped', the merchant may make no further changes
+                    except to update the status to 'Cancelled'.  Any items not received
+                    at the time a shipment is 'Cancelled' will be sidelined if they
+                    arrive at the fulfillment center.
+
+                    This operation will simply return a requestId upon success,
+                    otherwise an explicit error will be returned.
+
+                    NOTE: If you are experiencing time-outs due to too many
+                    items in the shipment, calling this operation with a subset
+                    of the items should work.  You may add more items to the
+                    shipment by calling PutInboundShipmentItems.
+                </wsdl:documentation>
+                <wsdl:input message="tns:PutInboundShipmentRequestMsg" wsa:Action="urn:PutInboundShipment"/>
+                <wsdl:output message="tns:PutInboundShipmentResponseMsg" wsa:Action="urn:PutInboundShipment:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="PutInboundShipmentItems">
+                <wsdl:documentation>
+                    Adds line items to the pre-existing shipment specified by the
+                    ShipmentId. If the MerchantSKU is already in the shipment, then
+                    that particular line item will be replaced. Call
+                    PutInboundShipment to create the shipment to be worked on.
+
+                    This call will return an exception when attempting to add line
+                    items to a shipment that is in a status of 'Receiving' or later.
+                </wsdl:documentation>
+                <wsdl:input message="tns:PutInboundShipmentItemsRequestMsg" wsa:Action="urn:PutInboundShipmentItems"/>
+                <wsdl:output message="tns:PutInboundShipmentItemsResponseMsg" wsa:Action="urn:PutInboundShipmentItems:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="DeleteInboundShipmentItems">
+                <wsdl:documentation>
+                    Removes line items from the pre-existing shipment specified by the
+                    ShipmentId. If the MerchantSKU is not currently a part of the
+                    shipment, then that particular line item will be ignored and all
+                    others will still be processed. Call PutInboundShipment to create
+                    the shipment to be worked on.
+
+                    This call will return an exception when attempting to remove line
+                    items from a shipment that is in a status of 'Receiving' or later.
+                </wsdl:documentation>
+                <wsdl:input message="tns:DeleteInboundShipmentItemsRequestMsg" wsa:Action="urn:DeleteInboundShipmentItems"/>
+                <wsdl:output message="tns:DeleteInboundShipmentItemsResponseMsg" wsa:Action="urn:DeleteInboundShipmentItems:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListInboundShipments">
+                <wsdl:documentation>
+                    Get the first set of inbound shipments created by a merchant
+                    according to the specified query parameters.  A NextToken is also
+                    returned to further iterate through the merchant's remaining
+                    shipments.  The service will return between 1 and 'MaxCount' number
+                    of items.  Please check the value of 'HasNext' to determine
+                    whether there were some items which were not returned.  If
+                    ShipmentStatus is not set, then all shipments for a merchant will
+                    be returned, otherwise only shipments in the specified status will
+                    be returned.  If CreatedBefore is set, only shipments which were
+                    created before the specified date will be returned (if left
+                    unspecified, it defaults to "now").  If CreatedAfter is set, only
+                    shipments which were created after the specified date will be
+                    returned (if left unspecified, it defaults to the epoch).
+
+                    NOTE: The CreatedBefore and CreatedAfter functionality is not
+                    currently implemented and defaults to the values mentioned above.
+                </wsdl:documentation>
+                <wsdl:input message="tns:ListInboundShipmentsRequestMsg" wsa:Action="urn:ListInboundShipments"/>
+                <wsdl:output
+                    message="tns:ListInboundShipmentsResponseMsg" wsa:Action="urn:ListInboundShipments:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListInboundShipmentsByNextToken">
+                <wsdl:documentation>
+                    Gets the next set of inbound shipments created by a
+                    merchant and returns the next NextToken which can be used to
+                    iterate through the remaining inbound shipments.  The
+                    service will return between 1 and 'MaxCount' number of
+                    items.  Please check the value of 'HasNext' to determine
+                    whether there were some items which were not returned.
+                </wsdl:documentation>
+                <wsdl:input
+                    message="tns:ListInboundShipmentsByNextTokenRequestMsg" wsa:Action="urn:ListInboundShipmentsByNextToken"/>
+                <wsdl:output
+                    message="tns:ListInboundShipmentsByNextTokenResponseMsg" wsa:Action="urn:ListInboundShipmentsByNextToken:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetInboundShipmentData">
+                <wsdl:documentation>
+                    Gets the merchant's inbound shipment header information for the
+                    given ShipmentId.
+                </wsdl:documentation>
+                <wsdl:input message="tns:GetInboundShipmentDataRequestMsg" wsa:Action="urn:GetInboundShipmentData"/>
+                <wsdl:output message="tns:GetInboundShipmentDataResponseMsg" wsa:Action="urn:GetInboundShipmentData:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="PutInboundShipmentData">
+                <wsdl:documentation>
+                    Adds or replaces the merchant's inbound shipment header information for the
+                    given ShipmentId.
+                </wsdl:documentation>
+                <wsdl:input message="tns:PutInboundShipmentDataRequestMsg" wsa:Action="urn:PutInboundShipmentData"/>
+                <wsdl:output message="tns:PutInboundShipmentDataResponseMsg" wsa:Action="urn:PutInboundShipmentData:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListInboundShipmentItems">
+                <wsdl:documentation>
+                    Gets the first set of inbound shipment items for the given
+                    ShipmentId. A NextToken is also returned to further iterate
+                    through the merchant's remaining inbound shipment items.
+                    The service will return between 1 and 'MaxCount' number of
+                    shipment items.  Please check the value of 'HasNext' to
+                    determine whether there are some items which were not
+                    returned. To get the next set of inbound shipment items, you
+                    must call ListInboundShipmentItemsByNextToken and pass in
+                    the 'NextToken' this call returned.
+                </wsdl:documentation>
+                <wsdl:input message="tns:ListInboundShipmentItemsRequestMsg" wsa:Action="urn:ListInboundShipmentItems"/>
+                <wsdl:output message="tns:ListInboundShipmentItemsResponseMsg" wsa:Action="urn:ListInboundShipmentItems:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListInboundShipmentItemsByNextToken">
+                <wsdl:documentation>
+                    Gets the next set of inbound shipment items and returns the
+                    NextToken which can be used to iterate through the remaining
+                    inbound shipment items. The service will return between 1 and
+                    'MaxCount' number of shipment items.  Please check the value
+                    of 'HasNext' to determine whether there are some items which
+                    were not returned. You must first call
+                    ListInboundShipmentItems to get a 'NextToken'.
+                </wsdl:documentation>
+                <wsdl:input
+                    message="tns:ListInboundShipmentItemsByNextTokenRequestMsg" wsa:Action="urn:ListInboundShipmentItemsByNextToken"/>
+                <wsdl:output
+                    message="tns:ListInboundShipmentItemsByNextTokenResponseMsg" wsa:Action="urn:ListInboundShipmentItemsByNextToken:Response"/>
+            </wsdl:operation>
+
+            <wsdl:operation name="SetInboundShipmentStatus">
+                <wsdl:documentation>
+                    Sets the inbound shipment status to the specified ShipmentStatus.
+                    Valid statuses are 'Shipped' (the shipment has left the merchant)
+                    or 'Cancelled'.
+
+                    Once a shipment's status has been set to 'Shipped', the merchant
+                    may make no further changes except to update the status to
+                    'Cancelled'.  Any items not received at the time a shipment is
+                    'Cancelled' will be put into problem receive at the
+                    fulfillment center.
+
+                    This operation will simply return a requestId upon success,
+                    otherwise an explicit error will be returned.
+                </wsdl:documentation>
+                <wsdl:input message="tns:SetInboundShipmentStatusRequestMsg" wsa:Action="urn:SetInboundShipmentStatus"/>
+                <wsdl:output message="tns:SetInboundShipmentStatusResponseMsg" wsa:Action="urn:SetInboundShipmentStatus:Response"/>
+            </wsdl:operation>
+
+        </wsdl:portType>
+
+        <!-- ******************************** Bindings ********************************** -->
+
+        <wsdl:binding name="AmazonFWSInboundBinding" type="tns:AmazonFWSInboundPortType">
+
+            <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+            <wsdl:operation name="GetServiceStatus">
+                <soap:operation soapAction="GetServiceStatus"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetFulfillmentIdentifier">
+                <soap:operation soapAction="GetFulfillmentIdentifier"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetFulfillmentIdentifierForMSKU">
+                <soap:operation soapAction="GetFulfillmentIdentifierForMSKU"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListAllFulfillmentItems">
+                <soap:operation soapAction="ListAllFulfillmentItems"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListAllFulfillmentItemsByNextToken">
+                <soap:operation soapAction="ListAllFulfillmentItemsByNextToken"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetFulfillmentItemByMSKU">
+                <soap:operation soapAction="GetFulfillmentItemByMSKU"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetFulfillmentItemByFNSKU">
+                <soap:operation soapAction="GetFulfillmentItemByFNSKU"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetInboundShipmentPreview">
+                <soap:operation soapAction="GetInboundShipmentPreview"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="PutInboundShipment">
+                <soap:operation soapAction="PutInboundShipment"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="PutInboundShipmentItems">
+                <soap:operation soapAction="PutInboundShipmentItems"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="DeleteInboundShipmentItems">
+                <soap:operation soapAction="DeleteInboundShipmentItems"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListInboundShipments">
+                <soap:operation soapAction="ListInboundShipments"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListInboundShipmentsByNextToken">
+                <soap:operation soapAction="ListInboundShipmentsByNextToken"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="GetInboundShipmentData">
+                <soap:operation soapAction="GetInboundShipmentData"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="PutInboundShipmentData">
+                <soap:operation soapAction="PutInboundShipmentData"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListInboundShipmentItems">
+                <soap:operation soapAction="ListInboundShipmentItems"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="ListInboundShipmentItemsByNextToken">
+                <soap:operation soapAction="ListInboundShipmentItemsByNextToken"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+            <wsdl:operation name="SetInboundShipmentStatus">
+                <soap:operation soapAction="SetInboundShipmentStatus"/>
+                <wsdl:input>
+                    <soap:body use="literal"/>
+                </wsdl:input>
+                <wsdl:output>
+                    <soap:body use="literal"/>
+                </wsdl:output>
+            </wsdl:operation>
+
+        </wsdl:binding>
+
+        <!-- ******************************** Service ********************************** -->
+
+        <wsdl:service name="AmazonFWSInbound">
+            <wsdl:documentation>
+                Fulfillment By Amazon (FBA) Web Service used to set up inbound shipments
+                to Amazon and to view inventory in the Amazon Fulfillment Network.
+
+                Release Notes: https://fba-inbound.amazonaws.com/doc/2007-05-10/ReleaseNotes.html
+
+                Important: EU and JP merchants should change the service address to
+                https://fba-inbound-eu.amazonaws.com and https://fba-inbound-jp.amazonaws.com,
+                respectively.
+            </wsdl:documentation>
+            <wsdl:port name="AmazonFWSInboundPort" binding="tns:AmazonFWSInboundBinding">
+                <soap:address location="https://fba-inbound.amazonaws.com"/>
+            </wsdl:port>
+        </wsdl:service>
+
+    </wsdl:definitions>
