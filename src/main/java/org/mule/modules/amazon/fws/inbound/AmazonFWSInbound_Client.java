@@ -32,6 +32,7 @@ import java.security.SignatureException;
  * User: davideason
  * Date: 6/8/11
  * Time: 4:03 PM
+ * AmazonFWSInbound_Client invokes REST services associated with the Amazon Inbound Fulfillment Web Service (FWS).
  */
 
 
@@ -52,7 +53,7 @@ public class AmazonFWSInbound_Client {
         //Create a trust manager
         TrustManager[] myTrustManager = new TrustManager[]{new CustomTrustManager()};
         ClientConfig config = new DefaultClientConfig();
-        SSLContext ctx = null;
+        SSLContext ctx;
 
         try {
 
@@ -64,7 +65,7 @@ public class AmazonFWSInbound_Client {
             nsae.printStackTrace();
             throw nsae;
 
-        } catch (KeyManagementException kme){
+        } catch (KeyManagementException kme) {
 
             kme.printStackTrace();
             throw kme;
@@ -86,276 +87,193 @@ public class AmazonFWSInbound_Client {
         this.queryParams = params;
     }
 
-    public String deleteInboundShipmentItems(@NotNull String shipmentId, @NotNull String merchantSKU) throws SignatureException {
+    public String deleteInboundShipmentItems(@NotNull String shipmentId, @NotNull String merchantSKU) {
         serviceAction = "DeleteInboundShipmentItems";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("ShipmentId", shipmentId);
-            queryParams.add("MerchantSKU", merchantSKU);
+        // Set request fields
+        queryParams.add("ShipmentId", shipmentId);
+        queryParams.add("MerchantSKU", merchantSKU);
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
-    public String getFulfillmentIdentifier(@NotNull MerchantItem merchantItem) throws SignatureException {
+    public String getFulfillmentIdentifier(@NotNull MerchantItem merchantItem) {
         serviceAction = "GetFulfillmentIdentifier";
 
-        try {
-            //Initialize invocation header
-            setInvocationHeader(serviceAction);
+        //Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("MerchantItem.ASIN", merchantItem.getASIN());
-            queryParams.add("MerchantItem.Condition", merchantItem.getCondition().toString());
-            queryParams.add("MerchantItem.MerchantSKU", merchantItem.getMerchantSKU());
+        // Set request fields
+        queryParams.add("MerchantItem.ASIN", merchantItem.getASIN());
+        queryParams.add("MerchantItem.Condition", merchantItem.getCondition().toString());
+        queryParams.add("MerchantItem.MerchantSKU", merchantItem.getMerchantSKU());
 
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
-    public String getFulfillmentIdentifierForMSKU(@NotNull String merchantSKU) throws SignatureException {
+    public String getFulfillmentIdentifierForMSKU(@NotNull String merchantSKU) {
         serviceAction = "GetFulfillmentIdentifierforMSKU";
 
-        try {
-            //Initialize invocation header
-            setInvocationHeader(serviceAction);
-            // Set request fields
-            queryParams.add("MerchantSKU", merchantSKU);
+        //Initialize invocation header
+        setInvocationHeader(serviceAction);
+        // Set request fields
+        queryParams.add("MerchantSKU", merchantSKU);
 
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
-    public String getFulfillmentItemByFNSKU(@NotNull String fulfillmentNetworkSKU) throws SignatureException {
+    public String getFulfillmentItemByFNSKU(@NotNull String fulfillmentNetworkSKU) {
         serviceAction = "GetFulfillmentItemByFNSKU";
 
-        try {
-            //Initialize invocation header
-            setInvocationHeader(serviceAction);
+        //Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("FulfillmentNetworkSKU", fulfillmentNetworkSKU);
+        // Set request fields
+        queryParams.add("FulfillmentNetworkSKU", fulfillmentNetworkSKU);
 
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
-    public String getFulfillmentItemByMSKU(@NotNull String merchantSKU) throws SignatureException {
+    public String getFulfillmentItemByMSKU(@NotNull String merchantSKU) {
         serviceAction = "GetFulfillmentItemByMSKU";
 
-        try {
-            //Initialize invocation header
-            setInvocationHeader(serviceAction);
+        //Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set query parameters
-            queryParams.add("MerchantSKU", merchantSKU);
+        // Set query parameters
+        queryParams.add("MerchantSKU", merchantSKU);
 
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
-    public String getInboundShipmentData(@NotNull String shipmentId) throws SignatureException {
+    public String getInboundShipmentData(@NotNull String shipmentId) {
         serviceAction = "GetInboundShipmentData";
 
-        try {
-            //Initialize invocation header
-            setInvocationHeader(serviceAction);
+        //Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("ShipmentId", shipmentId);
+        // Set request fields
+        queryParams.add("ShipmentId", shipmentId);
 
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
     public String getInboundShipmentPreview(@NotNull Address address,
-                                            @NotNull MerchantSKUQuantityItem[] mSKUQuantityItemList) throws SignatureException {
+                                            @NotNull MerchantSKUQuantityItem[] mSKUQuantityItemList) {
         serviceAction = "GetInboundShipmentPreview";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set Address fields
-            queryParams.add("ShipFromAddress.Name", address.getName());
-            queryParams.add("ShipFromAddress.AddressLine1", address.getAddressLine1());
-            queryParams.add("ShipFromAddress.AddressLine2", address.getAddressLine2());
-            queryParams.add("ShipFromAddress.City", address.getCity());
-            queryParams.add("ShipFromAddress.StateOrProvinceCode", address.getStateOrProvinceCode());
-            queryParams.add("ShipFromAddress.CountryCode", address.getCountryCode());
-            queryParams.add("ShipFromAddress.PostalCode", address.getPostalCode());
+        // Set Address fields
+        queryParams.add("ShipFromAddress.Name", address.getName());
+        queryParams.add("ShipFromAddress.AddressLine1", address.getAddressLine1());
+        queryParams.add("ShipFromAddress.AddressLine2", address.getAddressLine2());
+        queryParams.add("ShipFromAddress.City", address.getCity());
+        queryParams.add("ShipFromAddress.StateOrProvinceCode", address.getStateOrProvinceCode());
+        queryParams.add("ShipFromAddress.CountryCode", address.getCountryCode());
+        queryParams.add("ShipFromAddress.PostalCode", address.getPostalCode());
 
-            // Set Merchant SKU Quantity Item fields
-            for (int i = 1; i < mSKUQuantityItemList.length + 1; i++) {
-                queryParams.add("MerchantSKUQuantityItem." + i + ".MerchantSKU", mSKUQuantityItemList[i - 1].getMerchantSKU());
-                queryParams.add("MerchantSKUQuantityItem." + i + ".Quantity", Integer.toString(mSKUQuantityItemList[i - 1].getQuantity()));
-            }
-
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
+        // Set Merchant SKU Quantity Item fields
+        for (int i = 1; i < mSKUQuantityItemList.length + 1; i++) {
+            queryParams.add("MerchantSKUQuantityItem." + i + ".MerchantSKU", mSKUQuantityItemList[i - 1].getMerchantSKU());
+            queryParams.add("MerchantSKUQuantityItem." + i + ".Quantity", Integer.toString(mSKUQuantityItemList[i - 1].getQuantity()));
         }
+
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
-    public String getServiceStatus() throws SignatureException {
+    public String getServiceStatus() {
         serviceAction = "GetServiceStatus";
 
-        try {
-            //Initialize invocation header
-            setInvocationHeader(serviceAction);
+        //Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
     public String listAllFulfillmentItems(@NotNull Boolean includeInactive,
-                                          @NotNull Integer maxCount) throws SignatureException {
+                                          @NotNull Integer maxCount) {
         serviceAction = "ListAllFulfillmentItems";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("IncludeInactive", Boolean.toString(includeInactive));
-            queryParams.add("MaxCount", Integer.toString(maxCount));
+        // Set request fields
+        queryParams.add("IncludeInactive", Boolean.toString(includeInactive));
+        queryParams.add("MaxCount", Integer.toString(maxCount));
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
-    public String listAllFulfillmentItemsByNextToken(@NotNull String nextToken) throws SignatureException {
+    public String listAllFulfillmentItemsByNextToken(@NotNull String nextToken) {
         serviceAction = "ListAllFulfillmentItemsByNextToken";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("NextToken", nextToken);
+        // Set request fields
+        queryParams.add("NextToken", nextToken);
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
     public String listInboundShipmentItems(@NotNull String shipmentId,
-                                           @NotNull Integer maxCount) throws SignatureException {
+                                           @NotNull Integer maxCount) {
         serviceAction = "ListInboundShipmentsItems";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("ShipmentId", shipmentId);
-            queryParams.add("MaxCount", Integer.toString(maxCount));
+        // Set request fields
+        queryParams.add("ShipmentId", shipmentId);
+        queryParams.add("MaxCount", Integer.toString(maxCount));
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
-    public String listInboundShipmentItemsByNextToken(@NotNull String nextToken) throws SignatureException {
+    public String listInboundShipmentItemsByNextToken(@NotNull String nextToken) {
         serviceAction = "ListInboundShipmentsItemsByNextToken";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("NextToken", nextToken);
+        // Set request fields
+        queryParams.add("NextToken", nextToken);
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
 
         return responseString;
     }
@@ -364,52 +282,38 @@ public class AmazonFWSInbound_Client {
     public String listInboundShipments(String shipmentStatus,
                                        DateTime createdBefore,
                                        DateTime createdAfter,
-                                       @NotNull Integer maxCount) throws SignatureException {
+                                       @NotNull Integer maxCount) {
         serviceAction = "ListInboundShipments";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Create new formatted DateTime
-            DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-DDThh:mm:ss");
+        // Create new formatted DateTime
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-DDThh:mm:ss");
 
-            // Set request fields
-            queryParams.add("ShipmentStatus", shipmentStatus);
-            queryParams.add("CreatedBefore", createdBefore.toString(formatter));
-            queryParams.add("CreatedAfter", createdAfter.toString(formatter));
-            queryParams.add("MaxCount", Integer.toString(maxCount));
+        // Set request fields
+        queryParams.add("ShipmentStatus", shipmentStatus);
+        queryParams.add("CreatedBefore", createdBefore.toString(formatter));
+        queryParams.add("CreatedAfter", createdAfter.toString(formatter));
+        queryParams.add("MaxCount", Integer.toString(maxCount));
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
-    public String listInboundShipmentsByNextToken(@NotNull String nextToken) throws SignatureException {
+    public String listInboundShipmentsByNextToken(@NotNull String nextToken) {
         serviceAction = "ListInboundShipmentsByNextToken";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("NextToken", nextToken);
+        // Set request fields
+        queryParams.add("NextToken", nextToken);
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
@@ -418,35 +322,28 @@ public class AmazonFWSInbound_Client {
                                      @NotNull String shipmentName,
                                      @NotNull String destinationFulfillmentCenter,
                                      @NotNull Address shipFromAddress,
-                                     @NotNull MerchantSKUQuantityItem mSKUQuantityItem) throws SignatureException {
+                                     @NotNull MerchantSKUQuantityItem mSKUQuantityItem) {
         serviceAction = "PutInboundShipment";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("ShipmentId", shipmentId);
-            queryParams.add("ShipmentName", shipmentName);
-            queryParams.add("DestinationFulfillmentCenter", destinationFulfillmentCenter);
-            queryParams.add("ShipFromAddress.Name", shipFromAddress.getName());
-            queryParams.add("ShipFromAddress.AddressLine1", shipFromAddress.getAddressLine1());
-            queryParams.add("ShipFromAddress.AddressLine2", shipFromAddress.getAddressLine2());
-            queryParams.add("ShipFromAddress.City", shipFromAddress.getCity());
-            queryParams.add("ShipFromAddress.StateOrProvinceCode", shipFromAddress.getStateOrProvinceCode());
-            queryParams.add("ShipFromAddress.CountryCode", shipFromAddress.getCountryCode());
-            queryParams.add("ShipFromAddress.PostalCode", shipFromAddress.getPostalCode());
-            queryParams.add("MerchantSKUQuantityItem.MerchantSKU", mSKUQuantityItem.getMerchantSKU());
-            queryParams.add("MerchantSKUQuantityItem.Quantity", Integer.toString(mSKUQuantityItem.getQuantity()));
+        // Set request fields
+        queryParams.add("ShipmentId", shipmentId);
+        queryParams.add("ShipmentName", shipmentName);
+        queryParams.add("DestinationFulfillmentCenter", destinationFulfillmentCenter);
+        queryParams.add("ShipFromAddress.Name", shipFromAddress.getName());
+        queryParams.add("ShipFromAddress.AddressLine1", shipFromAddress.getAddressLine1());
+        queryParams.add("ShipFromAddress.AddressLine2", shipFromAddress.getAddressLine2());
+        queryParams.add("ShipFromAddress.City", shipFromAddress.getCity());
+        queryParams.add("ShipFromAddress.StateOrProvinceCode", shipFromAddress.getStateOrProvinceCode());
+        queryParams.add("ShipFromAddress.CountryCode", shipFromAddress.getCountryCode());
+        queryParams.add("ShipFromAddress.PostalCode", shipFromAddress.getPostalCode());
+        queryParams.add("MerchantSKUQuantityItem.MerchantSKU", mSKUQuantityItem.getMerchantSKU());
+        queryParams.add("MerchantSKUQuantityItem.Quantity", Integer.toString(mSKUQuantityItem.getQuantity()));
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
@@ -454,87 +351,66 @@ public class AmazonFWSInbound_Client {
     public String putInboundShipmentData(@NotNull String shipmentId,
                                          @NotNull String shipmentName,
                                          @NotNull String destinationFulfillmentCenter,
-                                         @NotNull Address shipFromAddress) throws SignatureException {
+                                         @NotNull Address shipFromAddress) {
         serviceAction = "PutInboundShipmentData";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("ShipmentId", shipmentId);
-            queryParams.add("ShipmentName", shipmentName);
-            queryParams.add("DestinationFulfillmentCenter", destinationFulfillmentCenter);
-            queryParams.add("ShipFromAddress.Name", shipFromAddress.getName());
-            queryParams.add("ShipFromAddress.AddressLine1", shipFromAddress.getAddressLine1());
-            queryParams.add("ShipFromAddress.AddressLine2", shipFromAddress.getAddressLine2());
-            queryParams.add("ShipFromAddress.City", shipFromAddress.getCity());
-            queryParams.add("ShipFromAddress.StateOrProvinceCode", shipFromAddress.getStateOrProvinceCode());
-            queryParams.add("ShipFromAddress.CountryCode", shipFromAddress.getCountryCode());
-            queryParams.add("ShipFromAddress.PostalCode", shipFromAddress.getPostalCode());
+        // Set request fields
+        queryParams.add("ShipmentId", shipmentId);
+        queryParams.add("ShipmentName", shipmentName);
+        queryParams.add("DestinationFulfillmentCenter", destinationFulfillmentCenter);
+        queryParams.add("ShipFromAddress.Name", shipFromAddress.getName());
+        queryParams.add("ShipFromAddress.AddressLine1", shipFromAddress.getAddressLine1());
+        queryParams.add("ShipFromAddress.AddressLine2", shipFromAddress.getAddressLine2());
+        queryParams.add("ShipFromAddress.City", shipFromAddress.getCity());
+        queryParams.add("ShipFromAddress.StateOrProvinceCode", shipFromAddress.getStateOrProvinceCode());
+        queryParams.add("ShipFromAddress.CountryCode", shipFromAddress.getCountryCode());
+        queryParams.add("ShipFromAddress.PostalCode", shipFromAddress.getPostalCode());
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
     public String putInboundShipmentItems(@NotNull String shipmentId,
-                                          @NotNull MerchantSKUQuantityItem mSKUQuantityItem) throws SignatureException {
+                                          @NotNull MerchantSKUQuantityItem mSKUQuantityItem) {
         serviceAction = "PutInboundShipmentItems";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("ShipmentId", shipmentId);
-            queryParams.add("MerchantSKUQuantityItem.MerchantSKU", mSKUQuantityItem.getMerchantSKU());
-            queryParams.add("MerchantSKUQuantityItem.Quantity", Integer.toString(mSKUQuantityItem.getQuantity()));
+        // Set request fields
+        queryParams.add("ShipmentId", shipmentId);
+        queryParams.add("MerchantSKUQuantityItem.MerchantSKU", mSKUQuantityItem.getMerchantSKU());
+        queryParams.add("MerchantSKUQuantityItem.Quantity", Integer.toString(mSKUQuantityItem.getQuantity()));
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
     public String setInboundShipmentStatus(@NotNull String shipmentId,
-                                           @NotNull String shipmentStatus) throws SignatureException {
+                                           @NotNull String shipmentStatus) {
         serviceAction = "SetInboundShipmentStatus";
 
-        try {
-            // Initialize invocation header
-            setInvocationHeader(serviceAction);
+        // Initialize invocation header
+        setInvocationHeader(serviceAction);
 
-            // Set request fields
-            queryParams.add("ShipmentId", shipmentId);
-            queryParams.add("ShipmentStatus", shipmentStatus);
+        // Set request fields
+        queryParams.add("ShipmentId", shipmentId);
+        queryParams.add("ShipmentStatus", shipmentStatus);
 
-            // Invoke service
-            responseString = webResource.queryParams(queryParams).get(String.class);
-
-        } catch (SignatureException se) {
-
-            System.out.println("Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.");
-            throw se;
-        }
+        // Invoke service
+        responseString = webResource.queryParams(queryParams).get(String.class);
 
         return responseString;
     }
 
-    private void setInvocationHeader(String action) throws SignatureException {
+    private void setInvocationHeader(String action) {
 
         DateTime dateTime = new DateTime();
         String dateTimeAsString = dateTime.toString();
@@ -542,10 +418,13 @@ public class AmazonFWSInbound_Client {
         String signatureString;
 
         try {
+
             signatureString = signature.calculateRFC2104HMAC(signatureData, awsSecretAccessKey);
+
         } catch (SignatureException se) {
-            System.out.println("Error occurred while attempting to create HMAC signature");
-            throw se;
+            String msg = "Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.";
+            throw new org.mule.modules.amazon.fws.util.SignatureException(msg, se);
+
         }
 
         queryParams.add("Action", serviceAction);

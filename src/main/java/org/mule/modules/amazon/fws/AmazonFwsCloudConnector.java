@@ -13,7 +13,7 @@ package org.mule.modules.amazon.fws;
 import org.joda.time.DateTime;
 import org.mule.api.lifecycle.Initialisable;
 import org.mule.api.lifecycle.InitialisationException;
-import org.mule.modules.amazon.fws.inbound.*;
+import org.mule.modules.amazon.fws.inbound.AmazonFWSInbound_Client;
 import org.mule.modules.amazon.fws.inbound.generated_classes.Address;
 import org.mule.modules.amazon.fws.inbound.generated_classes.ItemCondition;
 import org.mule.modules.amazon.fws.inbound.generated_classes.MerchantItem;
@@ -25,7 +25,6 @@ import org.mule.tools.cloudconnect.annotations.Property;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
 
 /**
  * A cloud connector wrapper on {@link } api. Same exception handling
@@ -130,7 +129,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
      */
     @Operation
     public String deleteInboundShipmentItems(@Parameter String shipmentId,
-                                             @Parameter String merchantSKU) throws SignatureException {
+                                             @Parameter String merchantSKU) {
 
         return amazonFWSInboundClient.deleteInboundShipmentItems(shipmentId, merchantSKU);
     }
@@ -154,7 +153,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     @Operation
     public String getFulfillmentIdentifier(@Parameter String merchantItemASIN,
                                            @Parameter String merchantItemCondition,
-                                           @Parameter String merchantItemMSKU) throws SignatureException {
+                                           @Parameter String merchantItemMSKU) {
 
         MerchantItem merchantItem = new MerchantItem();
         merchantItem.setASIN(merchantItemASIN);
@@ -177,7 +176,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     * @throws java.security.SignatureException
     */
     @Operation
-    public String getFulfillmentIdentifierForMSKU(@Parameter String merchantSKU) throws SignatureException {
+    public String getFulfillmentIdentifierForMSKU(@Parameter String merchantSKU) {
 
         return amazonFWSInboundClient.getFulfillmentIdentifierForMSKU(merchantSKU);
     }
@@ -194,7 +193,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     * @throws java.security.SignatureException
     */
     @Operation
-    public String getFulfillmentItemByFNSKU(@Parameter String fulfillmentNetworkSKU) throws SignatureException {
+    public String getFulfillmentItemByFNSKU(@Parameter String fulfillmentNetworkSKU) {
 
         return amazonFWSInboundClient.getFulfillmentItemByFNSKU(fulfillmentNetworkSKU);
     }
@@ -212,7 +211,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     * @throws java.security.SignatureException
     */
     @Operation
-    public String getFulfillmentItemByMSKU(@Parameter String merchantSKU) throws SignatureException {
+    public String getFulfillmentItemByMSKU(@Parameter String merchantSKU) {
 
         return amazonFWSInboundClient.getFulfillmentItemByMSKU(merchantSKU);
     }
@@ -230,7 +229,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     * @throws java.security.SignatureException
     */
     @Operation
-    public String getInboundShipmentData(@Parameter String shipmentId) throws SignatureException {
+    public String getInboundShipmentData(@Parameter String shipmentId) {
 
         return amazonFWSInboundClient.getInboundShipmentData(shipmentId);
     }
@@ -272,7 +271,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
                                             @Parameter String addressCountryCode,
                                             @Parameter String addressPostalCode,
                                             @Parameter String merchantSKU,
-                                            @Parameter Integer merchantQuantity) throws SignatureException {
+                                            @Parameter Integer merchantQuantity) {
 
         Address shipFromAddress = new Address();
         MerchantSKUQuantityItem[] merchantSKUQuantityItems;
@@ -305,7 +304,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     * @throws java.security.SignatureException
     */
     @Operation
-    public String getInboundServiceStatus() throws SignatureException {
+    public String getInboundServiceStatus() {
 
         return amazonFWSInboundClient.getServiceStatus();
     }
@@ -326,7 +325,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     */
     @Operation
     public String listAllFulfillmentItems(@Parameter Boolean includeInactive,
-                                          @Parameter Integer maxCount) throws SignatureException {
+                                          @Parameter Integer maxCount) {
 
         return amazonFWSInboundClient.listAllFulfillmentItems(includeInactive, maxCount);
     }
@@ -344,7 +343,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     * @throws java.security.SignatureException
     */
     @Operation
-    public String listAllFulfillmentItemsByNextToken(@Parameter String nextToken) throws SignatureException {
+    public String listAllFulfillmentItemsByNextToken(@Parameter String nextToken) {
 
         return amazonFWSInboundClient.listAllFulfillmentItemsByNextToken(nextToken);
     }
@@ -365,7 +364,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     */
     @Operation
     public String listInboundShipmentItems(@Parameter String shipmentId,
-                                            @Parameter Integer maxCount) throws SignatureException {
+                                            @Parameter Integer maxCount) {
 
         return amazonFWSInboundClient.listInboundShipmentItems(shipmentId, maxCount);
     }
@@ -383,7 +382,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     * @throws java.security.SignatureException
     */
     @Operation
-    public String listInboundShipmentItemsByNextToken(@Parameter String nextToken) throws SignatureException {
+    public String listInboundShipmentItemsByNextToken(@Parameter String nextToken) {
 
         return amazonFWSInboundClient.listInboundShipmentItemsByNextToken(nextToken);
     }
@@ -410,7 +409,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     public String listInboundShipments(@Parameter (optional = true)String shipmentStatus,
                                        @Parameter (optional = true)DateTime createdBefore,
                                        @Parameter (optional = true)DateTime createdAfter,
-                                       @Parameter Integer maxCount) throws SignatureException {
+                                       @Parameter Integer maxCount) {
 
         return amazonFWSInboundClient.listInboundShipments(shipmentStatus,createdBefore,createdAfter,maxCount);
     }
@@ -428,7 +427,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     * @throws java.security.SignatureException
     */
     @Operation
-    public String listInboundShipmentsByNextToken(@Parameter String nextToken) throws SignatureException {
+    public String listInboundShipmentsByNextToken(@Parameter String nextToken) {
 
         return amazonFWSInboundClient.listInboundShipmentsByNextToken(nextToken);
     }
@@ -479,7 +478,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
                                      @Parameter String addressCountryCode,
                                      @Parameter String addressPostalCode,
                                      @Parameter String merchantSKU,
-                                     @Parameter Integer merchantQuantity) throws SignatureException {
+                                     @Parameter Integer merchantQuantity) {
 
         Address shipmentAddress = new Address();
         MerchantSKUQuantityItem merchantSKUQuantityItem = new MerchantSKUQuantityItem();
@@ -538,7 +537,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
                                      @Parameter String addressCity,
                                      @Parameter String addressStateOrProvinceCode,
                                      @Parameter String addressCountryCode,
-                                     @Parameter String addressPostalCode) throws SignatureException {
+                                     @Parameter String addressPostalCode) {
 
         Address shipmentAddress = new Address();
 
@@ -572,7 +571,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     @Operation
     public String putInboundShipmentItems(@Parameter String shipmentId,
                                           @Parameter String merchantSKU,
-                                          @Parameter Integer merchantQuantity) throws SignatureException {
+                                          @Parameter Integer merchantQuantity) {
 
         MerchantSKUQuantityItem merchantSKUQuantityItem = new MerchantSKUQuantityItem();
         merchantSKUQuantityItem.setMerchantSKU(merchantSKU);
@@ -597,7 +596,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
     */
     @Operation
     public String setInboundShipmentStatus(@Parameter String shipmentId,
-                                           @Parameter String shipmentStatus) throws SignatureException {
+                                           @Parameter String shipmentStatus) {
 
         return amazonFWSInboundClient.setInboundShipmentStatus(shipmentId,shipmentStatus);
     }
