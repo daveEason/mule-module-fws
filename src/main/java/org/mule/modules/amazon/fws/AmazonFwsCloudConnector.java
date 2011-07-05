@@ -157,7 +157,7 @@ public class AmazonFwsCloudConnector implements Initialisable {
 
         MerchantItem merchantItem = new MerchantItem();
         merchantItem.setASIN(merchantItemASIN);
-        merchantItem.setCondition(ItemCondition.fromValue(merchantItemCondition));
+        merchantItem.setCondition(ItemCondition.valueOf(merchantItemCondition));
         merchantItem.setMerchantSKU(merchantItemMSKU);
 
         return amazonFWSInboundClient.getFulfillmentIdentifier(merchantItem);

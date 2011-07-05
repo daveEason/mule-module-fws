@@ -5,6 +5,7 @@ package org.mule.modules.amazon.fws;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mule.api.lifecycle.InitialisationException;
 import org.mule.modules.amazon.fws.inbound.generated_classes.Address;
 import org.mule.modules.amazon.fws.inbound.generated_classes.MerchantSKUQuantityItem;
 
@@ -24,7 +25,8 @@ public class AmazonFwsTestCase {
     private String result;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws InitialisationException {
+
         //Initialise connector
         connector = new AmazonFwsCloudConnector();
         connector.setAwsAccessKeyId(System.getenv("user.key.aws.access"));
@@ -32,7 +34,7 @@ public class AmazonFwsTestCase {
         connector.initialise();
 
         address = new Address();
-        merchantSKUQuantityItems = new MerchantSKUQuantityItem[1];
+        merchantSKUQuantityItems = new MerchantSKUQuantityItem[3];
 
         // Initialize address
         address.setName("Mulesoft");
@@ -47,15 +49,19 @@ public class AmazonFwsTestCase {
         merchantSKUQuantityItems[0] = new MerchantSKUQuantityItem();
         merchantSKUQuantityItems[0].setMerchantSKU("QP-VRBC-2SZ9");
         merchantSKUQuantityItems[0].setQuantity(1);
+        merchantSKUQuantityItems[1] = new MerchantSKUQuantityItem();
+        merchantSKUQuantityItems[1].setMerchantSKU("LH-DVZ6-7JWL");
+        merchantSKUQuantityItems[1].setQuantity(3);
+        merchantSKUQuantityItems[2] = new MerchantSKUQuantityItem();
+        merchantSKUQuantityItems[2].setMerchantSKU("96-LE8R-4DTZ");
+        merchantSKUQuantityItems[2].setQuantity(5);
 
         // Initialize merchant Item details
         merchantItemASIN = "B0000508U6";
-        merchantItemCondition = "New";
+        merchantItemCondition = "NEW_ITEM";
 
         //Initialize shipment details
         shipmentName = "test shipment 01";
-
-        //TODO: Include assumeTrue here to verify systemConnectivity (can only be called during Before method)
     }
 
     @Test
@@ -71,36 +77,12 @@ public class AmazonFwsTestCase {
     }
 
     @Test
-    public void invokeGetFulfillmentIdentifier() {
-
-        String merchantItemMSKU = merchantSKUQuantityItems[0].getMerchantSKU();
-        result = connector.getFulfillmentIdentifier(merchantItemASIN, merchantItemCondition, merchantItemMSKU);
-        assertNotNull(result);
-        assertEquals("<ns1:GetFulfillmentIdentifierResponse", result.substring(22, 59));
-
-//        //TODO: complete populating FNSKU variable
-//        if (result.substring(22, 59).equals("<ns1:GetFulfillmentIdentifierResponse")) {
-//            //initialize fulfillmentNetworkSKU
-//            this.fulfillmentNetworkSKU = result.substring(1, 2);
-//        }
-
-    }
-
-    @Test
     public void invokeGetFulfillmentIdentifierForMSKU() {
 
         String merchantSKU = merchantSKUQuantityItems[0].getMerchantSKU();
         result = connector.getFulfillmentIdentifierForMSKU(merchantSKU);
         assertNotNull(result);
         assertEquals("<ns1:GetFulfillmentIdentifierForMSKUResponse", result.substring(22, 66));
-    }
-
-    @Test
-    public void invokeGetFulfillmentItemByFNSKU() {
-
-        result = connector.getFulfillmentItemByFNSKU(fulfillmentNetworkSKU);
-        assertNotNull(result);
-        assertEquals("<ns1:GetFulfillmentItemByFNSKUResponse", result.substring(22, 60));
     }
 
     @Test
@@ -121,19 +103,26 @@ public class AmazonFwsTestCase {
         */
 
         Boolean includeInactive = Boolean.TRUE;
-        Integer maxCount = 3;
+        Integer maxCount = 2;
 
         result = connector.listAllFulfillmentItems(includeInactive, maxCount);
         assertNotNull(result);
-        assertEquals("<ns1:ListAllFulfillmentItemsResponse xmlns:ns1=\"http://fba-inbound.amazonaws.com/doc/2007-05-10/\">", result.substring(22, 98));
+        assertEquals("<ns1:ListAllFulfillmentItemsResponse xmlns:ns1=\"http://fba-inbound.amazonaws.com/doc/2007-05-10/\">", result.substring(22, 120));
 
-        //TODO: Map nextToken from previous listFulfillmentItemsResponse
-        String nextToken = "";
-        if (nextToken.length() > 0){
-            result = connector.listAllFulfillmentItemsByNextToken(nextToken);
-            assertNotNull(result);
-            assertEquals("<ns1:ListAllFulfillmentItemsByNextTokenResponse", result.substring(22, 69));
-        }
+
+        //TODO: Complete 'hasNext' processing
+//        String hasNext = result.substring(347,351);
+//        if (hasNext.equals("true")){
+//            String nextToken = result.substring(170,318);
+//            try {
+//                connector.initialise();
+//            } catch (InitialisationException e) {
+//                e.printStackTrace();
+//            }
+//            result = connector.listAllFulfillmentItemsByNextToken(nextToken);
+//            assertNotNull(result);
+//            assertEquals("<ns1:ListAllFulfillmentItemsByNextTokenResponse", result.substring(22, 69));
+//        }
     }
 
     @Test
@@ -156,6 +145,30 @@ public class AmazonFwsTestCase {
             this.shipmentId = result.substring(196, 205);
             this.destinationFulfillmentCenter = (result.substring(256, 260));
         }
+    }
+
+    @Test
+    public void invokeGetFulfillmentIdentifier() {
+
+        String merchantItemMSKU = merchantSKUQuantityItems[0].getMerchantSKU();
+        result = connector.getFulfillmentIdentifier(merchantItemASIN, merchantItemCondition, merchantItemMSKU);
+        assertNotNull(result);
+        assertEquals("<ns1:GetFulfillmentIdentifierResponse", result.substring(22, 59));
+
+//        //TODO: complete populating FNSKU variable
+//        if (result.substring(22, 59).equals("<ns1:GetFulfillmentIdentifierResponse")) {
+//            //initialize fulfillmentNetworkSKU
+//            this.fulfillmentNetworkSKU = result.substring(1, 2);
+//        }
+
+    }
+
+    @Test
+    public void invokeGetFulfillmentItemByFNSKU() {
+
+        result = connector.getFulfillmentItemByFNSKU(fulfillmentNetworkSKU);
+        assertNotNull(result);
+        assertEquals("<ns1:GetFulfillmentItemByFNSKUResponse", result.substring(22, 60));
     }
 
 //    @Test

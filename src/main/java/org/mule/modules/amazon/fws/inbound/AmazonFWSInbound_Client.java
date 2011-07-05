@@ -38,22 +38,23 @@ import java.security.SignatureException;
 
 public class AmazonFWSInbound_Client {
 
-    private WebResource webResource = null;
-    private MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
-    private Signature signature = new Signature();
-    private String awsAccessKeyId = "";
-    private String awsSecretAccessKey = "";
+    private WebResource webResource;
+    private MultivaluedMap<String, String> queryParams;
+    private String awsAccessKeyId;
+    private String awsSecretAccessKey;
     private String responseString;
-    private String serviceAction = "";
-    private String serviceVersion = "2007-05-10";
+    private String serviceAction;
     private static final String BASE_URI = "https://fba-inbound.amazonaws.com/";
-    private HostnameVerifier hostnameVerifier = new CustomHostNameVerifier();
 
     public AmazonFWSInbound_Client(String awsAccessKeyId, String awsSecretAccessKey) throws NoSuchAlgorithmException, KeyManagementException {
         //Create a trust manager
         TrustManager[] myTrustManager = new TrustManager[]{new CustomTrustManager()};
         ClientConfig config = new DefaultClientConfig();
         SSLContext ctx;
+
+        //Create hostNameVerifier
+        HostnameVerifier hostnameVerifier = new CustomHostNameVerifier();
+
 
         try {
 
@@ -77,14 +78,10 @@ public class AmazonFWSInbound_Client {
         webResource = client.resource(BASE_URI);
         this.awsAccessKeyId = awsAccessKeyId;
         this.awsSecretAccessKey = awsSecretAccessKey;
-    }
+        queryParams = new MultivaluedMapImpl();
+        responseString = "";
+        serviceAction = "";
 
-    public MultivaluedMap<String, String> getQueryParams() {
-        return this.queryParams;
-    }
-
-    public void setQueryParams(MultivaluedMap<String, String> params) {
-        this.queryParams = params;
     }
 
     public String deleteInboundShipmentItems(@NotNull String shipmentId, @NotNull String merchantSKU) {
@@ -111,7 +108,7 @@ public class AmazonFWSInbound_Client {
 
         // Set request fields
         queryParams.add("MerchantItem.ASIN", merchantItem.getASIN());
-        queryParams.add("MerchantItem.Condition", merchantItem.getCondition().toString());
+        queryParams.add("MerchantItem.Condition", merchantItem.getCondition().value());
         queryParams.add("MerchantItem.MerchantSKU", merchantItem.getMerchantSKU());
 
         responseString = webResource.queryParams(queryParams).get(String.class);
@@ -120,7 +117,7 @@ public class AmazonFWSInbound_Client {
     }
 
     public String getFulfillmentIdentifierForMSKU(@NotNull String merchantSKU) {
-        serviceAction = "GetFulfillmentIdentifierforMSKU";
+        serviceAction = "GetFulfillmentIdentifierForMSKU";
 
         //Initialize invocation header
         setInvocationHeader(serviceAction);
@@ -416,10 +413,11 @@ public class AmazonFWSInbound_Client {
         String dateTimeAsString = dateTime.toString();
         String signatureData = action + dateTimeAsString;
         String signatureString;
+        String serviceVersion = "2007-05-10";
 
         try {
 
-            signatureString = signature.calculateRFC2104HMAC(signatureData, awsSecretAccessKey);
+            signatureString = Signature.calculateRFC2104HMAC(signatureData, awsSecretAccessKey);
 
         } catch (SignatureException se) {
             String msg = "Signature exception encountered when preparing to invoke: " + serviceAction + ". Ensure that aws_access_key_id and aws_secret_access_key have been correctly specified.";
