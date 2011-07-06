@@ -425,6 +425,7 @@ public class AmazonFWSInbound_Client {
 
         }
 
+        queryParams.clear();
         queryParams.add("Action", serviceAction);
         queryParams.add("Version", serviceVersion);
         queryParams.add("AWSAccessKeyId", awsAccessKeyId);

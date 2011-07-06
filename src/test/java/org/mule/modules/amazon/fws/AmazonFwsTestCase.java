@@ -110,19 +110,13 @@ public class AmazonFwsTestCase {
         assertEquals("<ns1:ListAllFulfillmentItemsResponse xmlns:ns1=\"http://fba-inbound.amazonaws.com/doc/2007-05-10/\">", result.substring(22, 120));
 
 
-        //TODO: Complete 'hasNext' processing
-//        String hasNext = result.substring(347,351);
-//        if (hasNext.equals("true")){
-//            String nextToken = result.substring(170,318);
-//            try {
-//                connector.initialise();
-//            } catch (InitialisationException e) {
-//                e.printStackTrace();
-//            }
-//            result = connector.listAllFulfillmentItemsByNextToken(nextToken);
-//            assertNotNull(result);
-//            assertEquals("<ns1:ListAllFulfillmentItemsByNextTokenResponse", result.substring(22, 69));
-//        }
+        String hasNext = result.substring(347,351);
+        if (hasNext.equals("true")){
+            String nextToken = result.substring(170,318);
+            result = connector.listAllFulfillmentItemsByNextToken(nextToken);
+            assertNotNull(result);
+            assertEquals("<ns1:ListAllFulfillmentItemsByNextTokenResponse", result.substring(22, 69));
+        }
     }
 
     @Test
@@ -155,11 +149,10 @@ public class AmazonFwsTestCase {
         assertNotNull(result);
         assertEquals("<ns1:GetFulfillmentIdentifierResponse", result.substring(22, 59));
 
-//        //TODO: complete populating FNSKU variable
-//        if (result.substring(22, 59).equals("<ns1:GetFulfillmentIdentifierResponse")) {
-//            //initialize fulfillmentNetworkSKU
-//            this.fulfillmentNetworkSKU = result.substring(1, 2);
-//        }
+        if (result.substring(22, 59).equals("<ns1:GetFulfillmentIdentifierResponse")) {
+            //initialize fulfillmentNetworkSKU
+            this.fulfillmentNetworkSKU = result.substring(321, 331);
+        }
 
     }
 
