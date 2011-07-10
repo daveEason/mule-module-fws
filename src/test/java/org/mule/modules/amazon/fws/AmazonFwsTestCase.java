@@ -3,6 +3,7 @@
  */
 package org.mule.modules.amazon.fws;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mule.api.lifecycle.InitialisationException;
@@ -18,11 +19,11 @@ public class AmazonFwsTestCase {
     private MerchantSKUQuantityItem[] merchantSKUQuantityItems;
     private String merchantItemASIN;
     private String merchantItemCondition;
-    private String shipmentId;
     private String shipmentName;
-    private String destinationFulfillmentCenter;
-    private String fulfillmentNetworkSKU;
     private String result;
+    private String fulfillmentNetworkSKU;
+    private static String shipmentId;
+    private static String destinationFulfillmentCenter;
 
     @Before
     public void setUp() throws InitialisationException {
@@ -58,6 +59,7 @@ public class AmazonFwsTestCase {
 
         // Initialize merchant Item details
         merchantItemASIN = "B0000508U6";
+        fulfillmentNetworkSKU = "X0006Z77QF";
         merchantItemCondition = "NEW_ITEM";
 
         //Initialize shipment details
@@ -136,8 +138,8 @@ public class AmazonFwsTestCase {
 
         if (result.substring(22, 196).equals("<ns1:GetInboundShipmentPreviewResponse xmlns:ns1=\"http://fba-inbound.amazonaws.com/doc/2007-05-10/\"><ns1:GetInboundShipmentPreviewResult><ns1:ShipmentPreview><ns1:ShipmentId>")) {
             //initialize shipmentId and destinationFulfillmentCenter
-            this.shipmentId = result.substring(196, 205);
-            this.destinationFulfillmentCenter = (result.substring(256, 260));
+            shipmentId = result.substring(196, 205);
+            destinationFulfillmentCenter = (result.substring(256, 260));
         }
     }
 
@@ -148,12 +150,6 @@ public class AmazonFwsTestCase {
         result = connector.getFulfillmentIdentifier(merchantItemASIN, merchantItemCondition, merchantItemMSKU);
         assertNotNull(result);
         assertEquals("<ns1:GetFulfillmentIdentifierResponse", result.substring(22, 59));
-
-        if (result.substring(22, 59).equals("<ns1:GetFulfillmentIdentifierResponse")) {
-            //initialize fulfillmentNetworkSKU
-            this.fulfillmentNetworkSKU = result.substring(321, 331);
-        }
-
     }
 
     @Test
@@ -164,133 +160,142 @@ public class AmazonFwsTestCase {
         assertEquals("<ns1:GetFulfillmentItemByFNSKUResponse", result.substring(22, 60));
     }
 
-//    @Test
-//    public void invokePutInboundShipment() {
-//
-//        String result;
-//        result = connector.putInboundShipment(shipmentId,
-//                shipmentName,
-//                destinationFulfillmentCenter,
-//                address.getName(),
-//                address.getAddressLine1(),
-//                address.getAddressLine2(),
-//                address.getCity(),
-//                address.getStateOrProvinceCode(),
-//                address.getCountryCode(),
-//                address.getPostalCode(),
-//                merchantSKUQuantityItems[0].getMerchantSKU(),
-//                merchantSKUQuantityItems[0].getQuantity());
-//        assertNotNull(result);
-//        assertEquals("<ns1:PutInboundShipmentResponse", result.substring(22, 53));
-//    }
-//
-//    @Test
-//    public void invokePutInboundShipmentData() {
-//
-//        //Update address data
-//        address.setName("Mulesoft.com");
-//
-//
-//        String result;
-//        result = connector.putInboundShipmentData(shipmentId,
-//                shipmentName,
-//                destinationFulfillmentCenter,
-//                address.getName(),
-//                address.getAddressLine1(),
-//                address.getAddressLine2(),
-//                address.getCity(),
-//                address.getStateOrProvinceCode(),
-//                address.getCountryCode(),
-//                address.getPostalCode());
-//        assertNotNull(result);
-//        assertEquals("<ns1:PutInboundShipmentDataResponse", result.substring(22, 57));
-//    }
-//
-//    @Test
-//    public void invokePutInboundShipmentItems() {
-//
-//        String result;
-//        result = connector.putInboundShipmentItems(shipmentId,
-//                merchantSKUQuantityItems[0].getMerchantSKU(),
-//                merchantSKUQuantityItems[0].getQuantity());
-//        assertNotNull(result);
-//        assertEquals("<ns1:PutInboundShipmentItemsResponse", result.substring(22, 58));
-//    }
-//
-//    @Test
-//    public void invokeGetInboundShipmentData() {
-//
-//        String result;
-//        result = connector.getInboundShipmentData(shipmentId);
-//        assertNotNull(result);
-//        assertEquals("<ns1:GetInboundShipmentDataResponse", result.substring(22, 57));
-//
-//    }
-//
-//    @Test
-//    public void invokeListInboundShipmentItems() {
-//        /*
-//            Invoke listInboundShipmentItems()
-//            Invoke listInboundShipmentItemsByNextToken()
-//         */
-//
-//        Integer maxCount = 3;
-//        String result;
-//        result = connector.listInboundShipmentItems(shipmentId, maxCount);
-//        assertNotNull(result);
-//        assertEquals("<ns1:ListInboundShipmentItemsResponse", result.substring(22, 59));
-//
-//        //TODO: Map nextToken from previous listInboundShipmentItemsResponse
-//        String nextToken = "";
-//        if (nextToken.length() > 0) {
-//            result = connector.listInboundShipmentItemsByNextToken(nextToken);
-//            assertNotNull(result);
-//            assertEquals("<ns1:ListInboundShipmentItemsByNextTokenResponse", result.substring(22, 70));
-//        }
-//    }
-//
-//    @Test
-//    public void invokeSetInboundShipmentStatus() {
-//
-//        String shipmentStatus = "Cancelled";
-//        String result;
-//        result = connector.setInboundShipmentStatus(shipmentId, shipmentStatus);
-//        assertNotNull(result);
-//        assertEquals("<ns1:SetInboundShipmentStatusResponse", result.substring(22, 59));
-//    }
-//
-//    @Test
-//    public void invokeListInboundShipments() {
-//        /*
-//            Invoke listInboundShipments()
-//            Invoke listInboundShipmentsByNextToken()
-//         */
-//
-//        Integer maxCount = 3;
-//        String shipmentStatus = "Cancelled";
-//        DateTime createdBefore = new DateTime();
-//        DateTime createdAfter = new DateTime();
-//        String result;
-//        result = connector.listInboundShipments(shipmentStatus, createdBefore, createdAfter, maxCount);
-//        assertNotNull(result);
-//        assertEquals("<ns1:ListInboundShipmentsResponse", result.substring(22, 55));
-//
-//        //TODO: Map nextToken from previous listInboundShipmentsResponse
-//        String nextToken = "";
-//        if (nextToken.length() > 0){
-//            result = connector.listInboundShipmentsByNextToken(nextToken);
-//            assertNotNull(result);
-//            assertEquals("<ns1:ListInboundShipmentsByNextTokenResponse", result.substring(22, 66));
-//        }
-//    }
-//
-//    @Test
-//    public void invokeDeleteInboundShipmentItems() {
-//
-//        String merchantSKU = merchantSKUQuantityItems[0].getMerchantSKU();
-//        String result;
-//        result = connector.deleteInboundShipmentItems(shipmentId, merchantSKU);
-//        assertNotNull(result);
-//        assertEquals("<ns1:DeleteInboundShipmentItemsResponse", result.substring(22, 61));
-//    }
+    @Test
+    public void invokePutInboundShipment() {
+
+        String result;
+        result = connector.putInboundShipment(shipmentId,
+                shipmentName,
+                destinationFulfillmentCenter,
+                address.getName(),
+                address.getAddressLine1(),
+                address.getAddressLine2(),
+                address.getCity(),
+                address.getStateOrProvinceCode(),
+                address.getCountryCode(),
+                address.getPostalCode(),
+                merchantSKUQuantityItems[0].getMerchantSKU(),
+                merchantSKUQuantityItems[0].getQuantity());
+        assertNotNull(result);
+        assertEquals("<ns1:PutInboundShipmentResponse", result.substring(22, 53));
+    }
+
+    @Test
+    public void invokePutInboundShipmentData() {
+
+        //Update address data
+        address.setName("Mulesoft.com");
+
+
+        String result;
+        result = connector.putInboundShipmentData(shipmentId,
+                shipmentName,
+                destinationFulfillmentCenter,
+                address.getName(),
+                address.getAddressLine1(),
+                address.getAddressLine2(),
+                address.getCity(),
+                address.getStateOrProvinceCode(),
+                address.getCountryCode(),
+                address.getPostalCode());
+        assertNotNull(result);
+        assertEquals("<ns1:PutInboundShipmentDataResponse", result.substring(22, 57));
+    }
+
+    @Test
+    public void invokePutInboundShipmentItems() {
+
+        String result;
+        result = connector.putInboundShipmentItems(shipmentId,
+                merchantSKUQuantityItems[1].getMerchantSKU(),
+                merchantSKUQuantityItems[1].getQuantity());
+        assertNotNull(result);
+        assertEquals("<ns1:PutInboundShipmentItemsResponse", result.substring(22, 58));
+    }
+
+    @Test
+    public void invokeGetInboundShipmentData() {
+
+        String result;
+        result = connector.getInboundShipmentData(shipmentId);
+        assertNotNull(result);
+        assertEquals("<ns1:GetInboundShipmentDataResponse", result.substring(22, 57));
+
+    }
+
+    @Test
+    public void invokeListInboundShipmentItems() {
+        /*
+            Invoke listInboundShipmentItems()
+            Invoke listInboundShipmentItemsByNextToken()
+         */
+
+        Integer maxCount = 1;
+        String result;
+        result = connector.listInboundShipmentItems(shipmentId, maxCount);
+        assertNotNull(result);
+        assertEquals("<ns1:ListInboundShipmentItemsResponse", result.substring(22, 59));
+
+        String hasNext = result.substring(253,257);
+        if (hasNext.equals("true")){
+
+            String nextToken = result.substring(172,224);
+            result = connector.listInboundShipmentItemsByNextToken(nextToken);
+            assertNotNull(result);
+            assertEquals("<ns1:ListInboundShipmentItemsByNextTokenResponse", result.substring(22, 70));
+        }
+    }
+
+    @Test
+    public void invokeDeleteInboundShipmentItems() {
+
+        //Delete item 1
+        String merchantSKU = merchantSKUQuantityItems[0].getMerchantSKU();
+        String result;
+        result = connector.deleteInboundShipmentItems(shipmentId, merchantSKU);
+        assertNotNull(result);
+        assertEquals("<ns1:DeleteInboundShipmentItemsResponse", result.substring(22, 61));
+
+        //Delete item 2
+        merchantSKU = merchantSKUQuantityItems[1].getMerchantSKU();
+        result = connector.deleteInboundShipmentItems(shipmentId,merchantSKU);
+        assertNotNull(result);
+        assertEquals("<ns1:DeleteInboundShipmentItemsResponse", result.substring(22, 61));
+    }
+
+    @Test
+    public void invokeSetInboundShipmentStatus() {
+
+        String shipmentStatus = "Cancelled";
+        String result;
+        result = connector.setInboundShipmentStatus(shipmentId, shipmentStatus);
+        assertNotNull(result);
+        assertEquals("<ns1:SetInboundShipmentStatusResponse", result.substring(22, 59));
+    }
+
+    @Test
+    public void invokeListInboundShipments() {
+        /*
+            Invoke listInboundShipments()
+            Invoke listInboundShipmentsByNextToken()
+         */
+
+        Integer maxCount = 3;
+        String shipmentStatus = "Cancelled";
+        DateTime createdBefore = new DateTime();
+        DateTime createdAfter = new DateTime();
+        String result;
+        result = connector.listInboundShipments(shipmentStatus, createdBefore, createdAfter, maxCount);
+        assertNotNull(result);
+        assertEquals("<ns1:ListInboundShipmentsResponse", result.substring(22, 55));
+
+        String hasNext = result.substring(257,261);
+        if (hasNext.equals("true")){
+
+            String nextToken = result.substring(164,228);
+            result = connector.listInboundShipmentsByNextToken(nextToken);
+            assertNotNull(result);
+            assertEquals("<ns1:ListInboundShipmentsByNextTokenResponse", result.substring(22, 66));
+        }
+    }
 }

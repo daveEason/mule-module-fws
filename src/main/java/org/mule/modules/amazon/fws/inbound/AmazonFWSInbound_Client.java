@@ -244,7 +244,7 @@ public class AmazonFWSInbound_Client {
 
     public String listInboundShipmentItems(@NotNull String shipmentId,
                                            @NotNull Integer maxCount) {
-        serviceAction = "ListInboundShipmentsItems";
+        serviceAction = "ListInboundShipmentItems";
 
         // Initialize invocation header
         setInvocationHeader(serviceAction);
@@ -260,7 +260,7 @@ public class AmazonFWSInbound_Client {
     }
 
     public String listInboundShipmentItemsByNextToken(@NotNull String nextToken) {
-        serviceAction = "ListInboundShipmentsItemsByNextToken";
+        serviceAction = "ListInboundShipmentItemsByNextToken";
 
         // Initialize invocation header
         setInvocationHeader(serviceAction);
@@ -286,7 +286,7 @@ public class AmazonFWSInbound_Client {
         setInvocationHeader(serviceAction);
 
         // Create new formatted DateTime
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-DDThh:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-DD'T'hh:mm:ss");
 
         // Set request fields
         queryParams.add("ShipmentStatus", shipmentStatus);
